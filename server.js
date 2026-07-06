@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 // Enable CORS
-const allowedOrigins = ['https://car-taxi-server.vercel.app', 'http://localhost:5173'];
+const allowedOrigins = ['https://car-taxi-server.vercel.app', 'http://localhost:5173', 'https://car-taxi-admin.vercel.app'];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
