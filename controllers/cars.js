@@ -3,7 +3,10 @@ const factory = require('./handlerFactory');
 
 exports.getAllCars = async (req, res, next) => {
   try {
-    const docs = await Car.find()
+    let queryStr = JSON.stringify(req.query);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+
+    const docs = await Car.find(JSON.parse(queryStr))
       .populate('currentDriver', 'name phone')
       .sort('-createdAt');
 

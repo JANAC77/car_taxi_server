@@ -28,7 +28,6 @@ const BookingSchema = new mongoose.Schema({
   },
   timeSlot: {
     type: String,
-    enum: ['Morning', 'Afternoon', 'Evening', 'Night'],
     required: true
   },
   fare: {

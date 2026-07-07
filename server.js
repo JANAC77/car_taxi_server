@@ -12,11 +12,12 @@ connectDB();
 
 const app = express();
 
-// Body parser
-app.use(express.json());
-
 // Enable CORS
 app.use(cors());
+
+// Body parser (increased limit for large payloads like images)
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {

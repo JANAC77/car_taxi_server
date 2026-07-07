@@ -3,7 +3,10 @@ const factory = require('./handlerFactory');
 
 exports.getAllBookings = async (req, res, next) => {
   try {
-    const docs = await Booking.find()
+    let queryStr = JSON.stringify(req.query);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+    
+    const docs = await Booking.find(JSON.parse(queryStr))
       .populate('customer', 'name email')
       .populate('driver', 'name phone')
       .populate('car', 'make model registrationNumber')
