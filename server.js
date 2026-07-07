@@ -16,16 +16,7 @@ const app = express();
 app.use(express.json());
 
 // Enable CORS
-const allowedOrigins = ['https://car-taxi-server.onrender.com', 'http://localhost:5173', 'http://localhost:5174', 'https://car-taxi-admin.vercel.app'];
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-}));
+app.use(cors());
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
