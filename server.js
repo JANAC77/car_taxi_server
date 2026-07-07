@@ -34,6 +34,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use('/api/v1/auth', require('./routes/auth'));
+app.use('/api/v1/driver-auth', require('./routes/driversAuth'));
 app.use('/api/v1/customers', require('./routes/customers'));
 app.use('/api/v1/drivers', require('./routes/drivers'));
 app.use('/api/v1/cars', require('./routes/cars'));

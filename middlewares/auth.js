@@ -24,6 +24,30 @@ exports.protect = async (req, res, next) => {
   }
 };
 
+exports.protectDriver = async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return res.status(401).json({ success: false, error: 'Not authorized to access this route' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+    const Driver = require('../models/Driver');
+    req.driver = await Driver.findById(decoded.id);
+    next();
+  } catch (err) {
+    return res.status(401).json({ success: false, error: 'Not authorized to access this route' });
+  }
+};
+
 exports.authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
