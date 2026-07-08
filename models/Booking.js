@@ -62,6 +62,18 @@ const BookingSchema = new mongoose.Schema({
     enum: ['Paid by Cash', 'Paid Online'],
     default: 'Paid by Cash'
   },
+  customerName: {
+    type: String
+  },
+  customerPhone: {
+    type: String
+  },
+  vehicleType: {
+    type: String
+  },
+  vehicleNumber: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now
