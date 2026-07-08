@@ -34,6 +34,10 @@ const BookingSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  distance: {
+    type: Number,
+    default: 0
+  },
   status: {
     type: String,
     enum: ['Pending', 'Confirmed', 'Ongoing', 'Completed', 'Cancelled'],
