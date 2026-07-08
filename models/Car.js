@@ -16,8 +16,15 @@ const CarSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['SUV', 'Sedan', 'Hatchback'],
     required: [true, 'Please specify car type']
+  },
+  seater: {
+    type: Number,
+    default: 4
+  },
+  pricePerKm: {
+    type: Number,
+    default: 0
   },
   status: {
     type: String,

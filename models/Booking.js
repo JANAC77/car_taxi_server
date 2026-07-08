@@ -44,6 +44,24 @@ const BookingSchema = new mongoose.Schema({
     enum: ['Pending', 'Completed'],
     default: 'Pending'
   },
+  landmark: {
+    type: String
+  },
+  tripType: {
+    type: String,
+    enum: ['One Way Trip', 'Round Trip'],
+    default: 'One Way Trip'
+  },
+  driverCharge: {
+    type: String,
+    enum: ['Included', 'Excluded'],
+    default: 'Included'
+  },
+  paymentMethod: {
+    type: String,
+    enum: ['Paid by Cash', 'Paid Online'],
+    default: 'Paid by Cash'
+  },
   createdAt: {
     type: Date,
     default: Date.now
