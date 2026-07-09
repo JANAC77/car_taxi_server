@@ -14,6 +14,9 @@ const BookingSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Car'
   },
+  carType: {
+    type: String
+  },
   pickupLocation: {
     type: String,
     required: true

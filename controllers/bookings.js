@@ -11,16 +11,16 @@ exports.getAllBookings = async (req, res, next) => {
   try {
     let queryStr = JSON.stringify(req.query);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
-    
+
     const docs = await Booking.find(JSON.parse(queryStr))
       .populate('customer', 'name email phone')
       .populate('driver', 'name phone upiId')
       .sort('-createdAt');
 
-    res.status(200).json({ 
-      success: true, 
+    res.status(200).json({
+      success: true,
       count: docs.length,
-      data: docs 
+      data: docs
     });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
@@ -84,7 +84,10 @@ exports.publishBooking = async (req, res, next) => {
       pickupDateTime,
       dropDateTime,
       fare,
-      status: 'Pending'
+      status: 'Pending',
+      ...(req.body.assignedDriverId && { driver: req.body.assignedDriverId }),
+      ...(req.body.carId && { car: req.body.carId }),
+      ...(req.body.carType && { carType: req.body.carType })
     });
 
     res.status(201).json({
@@ -113,7 +116,26 @@ exports.getAvailableBookings = async (req, res, next) => {
       });
     }
 
-    const bookings = await Booking.find({ status: 'Pending' })
+    const bookings = await Booking.find({ 
+      status: 'Pending',
+      $and: [
+        {
+          $or: [
+            { driver: { $exists: false } },
+            { driver: null },
+            { driver: driver._id }
+          ]
+        },
+        {
+          $or: [
+            { carType: { $exists: false } },
+            { carType: null },
+            { carType: '' },
+            { carType: driver.vehicleDetails?.type }
+          ]
+        }
+      ]
+    })
       .populate('customer', 'name email phone')
       .sort('-createdAt');
 

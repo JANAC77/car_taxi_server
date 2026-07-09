@@ -34,6 +34,7 @@ app.use('/api/v1/places', require('./routes/places'));
 app.use('/api/v1/bookings', require('./routes/bookings'));
 app.use('/api/v1/payments', require('./routes/payments'));
 app.use('/api/v1/settings', require('./routes/settings'));
+app.use('/api/v1/vehicle-types', require('./routes/vehicleTypes'));
 app.use('/api/v1/dashboard', require('./routes/dashboard'));
 
 // Base Route
