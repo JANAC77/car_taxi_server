@@ -30,16 +30,16 @@ const DriverSchema = new mongoose.Schema({
   },
   aadhaar: { type: String },
   panCard: { type: String },
-  photo: { type: String }, // Base64 or URL
-  licenseImage: { type: String },
-  panImage: { type: String },
-  aadhaarImage: { type: String },
+  photo: { type: String, select: false }, // Base64 or URL
+  licenseImage: { type: String, select: false },
+  panImage: { type: String, select: false },
+  aadhaarImage: { type: String, select: false },
   vehicleDetails: {
     type: { type: String },
     number: { type: String },
-    rcImage: { type: String },
-    pucImage: { type: String },
-    insuranceImage: { type: String }
+    rcImage: { type: String, select: false },
+    pucImage: { type: String, select: false },
+    insuranceImage: { type: String, select: false }
   },
   upiId: {
     type: String,
