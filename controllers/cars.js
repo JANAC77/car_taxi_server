@@ -21,5 +21,5 @@ exports.getAllCars = async (req, res, next) => {
 };
 exports.getCar = factory.getOne(Car, { path: 'currentDriver' });
 exports.createCar = factory.createOne(Car);
-exports.updateCar = factory.updateOne(Car);
+exports.updateCar = factory.updateOne(Car, { path: 'currentDriver', select: 'name phone' });
 exports.deleteCar = factory.deleteOne(Car);
