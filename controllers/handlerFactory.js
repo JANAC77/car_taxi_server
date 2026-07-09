@@ -88,7 +88,7 @@ exports.getAll = Model => async (req, res, next) => {
     const limit = parseInt(req.query.limit, 10) || 10;
     const startIndex = (page - 1) * limit;
     
-    query = query.skip(startIndex).limit(limit);
+    query = query.skip(startIndex).limit(limit).allowDiskUse(true);
 
     // Execute query
     const docs = await query;

@@ -137,7 +137,8 @@ exports.getAvailableBookings = async (req, res, next) => {
       ]
     })
       .populate('customer', 'name email phone')
-      .sort('-createdAt');
+      .sort('-createdAt')
+      .allowDiskUse(true);
 
     res.status(200).json({
       success: true,

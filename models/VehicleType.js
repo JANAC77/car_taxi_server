@@ -6,14 +6,6 @@ const VehicleTypeSchema = new mongoose.Schema({
     required: [true, 'Please add a vehicle type name'],
     unique: true
   },
-  baseFare: {
-    type: Number,
-    default: 0
-  },
-  seater: {
-    type: Number,
-    default: 4
-  },
   createdAt: {
     type: Date,
     default: Date.now
