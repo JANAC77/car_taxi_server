@@ -33,9 +33,9 @@ const AdminSchema = new mongoose.Schema({
 });
 
 // Encrypt password using bcrypt
-AdminSchema.pre('save', async function(next) {
+AdminSchema.pre('save', async function() {
   if (!this.isModified('password')) {
-    next();
+    return;
   }
 
   const salt = await bcrypt.genSalt(10);
