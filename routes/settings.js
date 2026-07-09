@@ -10,15 +10,13 @@ const { protect } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.use(protect); // All routes protected
-
 router.route('/')
-  .get(getAllSettings)
-  .post(createSetting);
+  .get(getAllSettings) // Public/Driver can read settings
+  .post(protect, createSetting);
 
 router.route('/:id')
   .get(getSetting)
-  .put(updateSetting)
-  .delete(deleteSetting);
+  .put(protect, updateSetting)
+  .delete(protect, deleteSetting);
 
 module.exports = router;

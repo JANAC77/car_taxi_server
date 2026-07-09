@@ -4,21 +4,33 @@ const {
   getBooking,
   createBooking,
   updateBooking,
-  deleteBooking
+  deleteBooking,
+  publishBooking,
+  getAvailableBookings,
+  acceptBooking,
+  updateBookingStatus,
+  getMyTrips
 } = require('../controllers/bookings');
-const { protect } = require('../middlewares/auth');
+const { protect, protectDriver } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.use(protect); // All routes protected
+// Driver endpoints (must be defined before /:id parameterized routes)
+router.get('/available', protectDriver, getAvailableBookings);
+router.get('/my-trips', protectDriver, getMyTrips);
+router.put('/:id/accept', protectDriver, acceptBooking);
+router.put('/:id/status', protectDriver, updateBookingStatus);
+
+// Admin / General endpoints
+router.post('/publish', protect, publishBooking);
 
 router.route('/')
-  .get(getAllBookings)
-  .post(createBooking);
+  .get(protect, getAllBookings)
+  .post(protect, createBooking);
 
 router.route('/:id')
-  .get(getBooking)
-  .put(updateBooking)
-  .delete(deleteBooking);
+  .get(protect, getBooking)
+  .put(protect, updateBooking)
+  .delete(protect, deleteBooking);
 
 module.exports = router;

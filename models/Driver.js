@@ -37,8 +37,22 @@ const DriverSchema = new mongoose.Schema({
   vehicleDetails: {
     type: { type: String },
     number: { type: String },
-    rcImage: { type: String }
+    rcImage: { type: String },
+    pucImage: { type: String },
+    insuranceImage: { type: String }
   },
+  upiId: {
+    type: String,
+    required: [true, 'Please add a UPI ID']
+  },
+  walletBalance: {
+    type: Number,
+    default: 0
+  },
+  dlExpiry: { type: Date },
+  rcExpiry: { type: Date },
+  pucExpiry: { type: Date },
+  insuranceExpiry: { type: Date },
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected', 'Active', 'Inactive'],

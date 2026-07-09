@@ -22,12 +22,12 @@ const BookingSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  journeyDate: {
+  pickupDateTime: {
     type: Date,
     required: true
   },
-  timeSlot: {
-    type: String,
+  dropDateTime: {
+    type: Date,
     required: true
   },
   fare: {
@@ -36,8 +36,8 @@ const BookingSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Confirmed', 'Ongoing', 'Completed', 'Cancelled'],
-    default: 'Confirmed'
+    enum: ['Pending', 'Accepted', 'Arrived', 'Ongoing', 'Completed', 'Cancelled'],
+    default: 'Pending'
   },
   paymentStatus: {
     type: String,

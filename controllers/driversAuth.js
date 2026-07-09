@@ -19,13 +19,16 @@ exports.register = async (req, res, next) => {
   try {
     const {
       name, email, password, phone, dob, licenseNumber, aadhaar, panCard,
-      photo, licenseImage, panImage, aadhaarImage, vehicleDetails
+      photo, licenseImage, panImage, aadhaarImage, vehicleDetails, upiId,
+      dlExpiry, rcExpiry, pucExpiry, insuranceExpiry
     } = req.body;
     
     const driver = await Driver.create({
       name, email, password, phone, dob, licenseNumber, aadhaar, panCard,
-      photo, licenseImage, panImage, aadhaarImage, vehicleDetails,
-      status: 'pending'
+      photo, licenseImage, panImage, aadhaarImage, vehicleDetails, upiId,
+      dlExpiry, rcExpiry, pucExpiry, insuranceExpiry,
+      status: 'pending',
+      walletBalance: 0
     });
 
     sendTokenResponse(driver, 201, res);

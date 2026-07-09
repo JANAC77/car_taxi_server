@@ -25,6 +25,14 @@ const SettingSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  adminUpiId: {
+    type: String,
+    default: ''
+  },
+  commissionPerRide: {
+    type: Number,
+    default: 100
+  },
   updatedAt: {
     type: Date,
     default: Date.now
