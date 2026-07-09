@@ -169,7 +169,7 @@ exports.acceptBooking = async (req, res, next) => {
 // @route   PUT /api/v1/bookings/:id/status
 exports.updateBookingStatus = async (req, res, next) => {
   try {
-    const { status } = req.body;
+    const { status, paymentMethod } = req.body;
     const allowedStatuses = ['Arrived', 'Ongoing', 'Completed', 'Cancelled'];
 
     if (!allowedStatuses.includes(status)) {
@@ -187,6 +187,9 @@ exports.updateBookingStatus = async (req, res, next) => {
     }
 
     booking.status = status;
+    if (paymentMethod) {
+      booking.paymentMethod = paymentMethod;
+    }
 
     if (status === 'Completed') {
       booking.paymentStatus = 'Completed';
