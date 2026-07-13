@@ -37,6 +37,9 @@ const BookingSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  timer: {
+    type: Number
+  },
   distance: {
     type: Number,
     default: 0

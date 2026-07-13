@@ -52,7 +52,8 @@ exports.publishBooking = async (req, res, next) => {
       dropLocation,
       pickupDateTime,
       dropDateTime,
-      fare
+      fare,
+      timer
     } = req.body;
 
     if (!customerName || !customerPhone || !pickupLocation || !dropLocation || !pickupDateTime || !dropDateTime || !fare) {
@@ -84,6 +85,7 @@ exports.publishBooking = async (req, res, next) => {
       pickupDateTime,
       dropDateTime,
       fare,
+      timer,
       status: 'Pending',
       ...(req.body.assignedDriverId && { driver: req.body.assignedDriverId }),
       ...(req.body.carId && { car: req.body.carId }),
