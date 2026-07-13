@@ -119,7 +119,7 @@ exports.getAvailableBookings = async (req, res, next) => {
     }
 
     const bookings = await Booking.find({ 
-      status: 'Pending',
+      status: { $in: ['Pending', 'Admin Accepted'] },
       $and: [
         {
           $or: [
@@ -173,7 +173,7 @@ exports.acceptBooking = async (req, res, next) => {
       return res.status(404).json({ success: false, error: 'Booking not found' });
     }
 
-    if (booking.status !== 'Pending') {
+    if (!['Pending', 'Admin Accepted'].includes(booking.status)) {
       return res.status(400).json({ success: false, error: 'Ride is already accepted or processing' });
     }
 
