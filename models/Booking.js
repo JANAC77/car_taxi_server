@@ -40,6 +40,17 @@ const BookingSchema = new mongoose.Schema({
   timer: {
     type: Number
   },
+  availableSeats: {
+    type: Number,
+    default: 1
+  },
+  startTime: {
+    type: Date
+  },
+  appliedDrivers: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Driver'
+  }],
   distance: {
     type: Number,
     default: 0

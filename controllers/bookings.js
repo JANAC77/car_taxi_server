@@ -177,8 +177,23 @@ exports.acceptBooking = async (req, res, next) => {
       return res.status(400).json({ success: false, error: 'Ride is already accepted or processing' });
     }
 
-    booking.driver = driver._id;
-    booking.status = 'Accepted';
+    if (booking.appliedDrivers && booking.appliedDrivers.includes(driver._id)) {
+      return res.status(400).json({ success: false, error: 'You have already applied for this ride' });
+    }
+
+    if (!booking.appliedDrivers) {
+      booking.appliedDrivers = [];
+    }
+    booking.appliedDrivers.push(driver._id);
+
+    if (booking.availableSeats > 0) {
+      booking.availableSeats -= 1;
+    }
+
+    if (!booking.startTime) {
+      booking.startTime = new Date();
+    }
+
     await booking.save();
 
     res.status(200).json({
