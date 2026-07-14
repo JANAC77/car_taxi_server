@@ -6,6 +6,10 @@ const VehicleTypeSchema = new mongoose.Schema({
     required: [true, 'Please add a vehicle type name'],
     unique: true
   },
+  imageUrl: {
+    type: String,
+    default: ''
+  },
   createdAt: {
     type: Date,
     default: Date.now
