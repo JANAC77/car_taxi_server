@@ -52,7 +52,8 @@ exports.publishBooking = async (req, res, next) => {
       dropLocation,
       pickupDateTime,
       dropDateTime,
-      fare
+      fare,
+      timer
     } = req.body;
 
     if (!customerName || !customerPhone || !pickupLocation || !dropLocation || !pickupDateTime || !dropDateTime || !fare) {
@@ -84,6 +85,7 @@ exports.publishBooking = async (req, res, next) => {
       pickupDateTime,
       dropDateTime,
       fare,
+      timer,
       status: 'Pending',
       ...(req.body.assignedDriverId && { driver: req.body.assignedDriverId }),
       ...(req.body.carId && { car: req.body.carId }),
@@ -117,7 +119,7 @@ exports.getAvailableBookings = async (req, res, next) => {
     }
 
     const bookings = await Booking.find({ 
-      status: 'Pending',
+      status: { $in: ['Pending', 'Admin Accepted'] },
       $and: [
         {
           $or: [
@@ -171,12 +173,27 @@ exports.acceptBooking = async (req, res, next) => {
       return res.status(404).json({ success: false, error: 'Booking not found' });
     }
 
-    if (booking.status !== 'Pending') {
+    if (!['Pending', 'Admin Accepted'].includes(booking.status)) {
       return res.status(400).json({ success: false, error: 'Ride is already accepted or processing' });
     }
 
-    booking.driver = driver._id;
-    booking.status = 'Accepted';
+    if (booking.appliedDrivers && booking.appliedDrivers.includes(driver._id)) {
+      return res.status(400).json({ success: false, error: 'You have already applied for this ride' });
+    }
+
+    if (!booking.appliedDrivers) {
+      booking.appliedDrivers = [];
+    }
+    booking.appliedDrivers.push(driver._id);
+
+    if (booking.availableSeats > 0) {
+      booking.availableSeats -= 1;
+    }
+
+    if (!booking.startTime) {
+      booking.startTime = new Date();
+    }
+
     await booking.save();
 
     res.status(200).json({
@@ -204,9 +221,18 @@ exports.updateBookingStatus = async (req, res, next) => {
       return res.status(404).json({ success: false, error: 'Booking not found' });
     }
 
-    // Ensure the driver updating is the assigned driver
-    if (booking.driver.toString() !== req.driver.id) {
-      return res.status(403).json({ success: false, error: 'You are not authorized to update this ride' });
+    // Ensure the driver updating is the assigned driver or an applied driver for Admin Accepted
+    if (booking.driver) {
+      if (booking.driver.toString() !== req.driver.id) {
+        return res.status(403).json({ success: false, error: 'You are not authorized to update this ride' });
+      }
+    } else {
+      if (booking.status === 'Admin Accepted' && booking.appliedDrivers && booking.appliedDrivers.includes(req.driver.id)) {
+        // Officially assign the driver
+        booking.driver = req.driver.id;
+      } else {
+        return res.status(403).json({ success: false, error: 'You are not authorized to update this ride' });
+      }
     }
 
     booking.status = status;
@@ -253,7 +279,12 @@ exports.updateBookingStatus = async (req, res, next) => {
 // @route   GET /api/v1/bookings/my-trips
 exports.getMyTrips = async (req, res, next) => {
   try {
-    const bookings = await Booking.find({ driver: req.driver.id })
+    const bookings = await Booking.find({
+      $or: [
+        { driver: req.driver.id },
+        { appliedDrivers: req.driver.id, status: 'Admin Accepted' }
+      ]
+    })
       .populate('customer', 'name email phone')
       .sort('-createdAt');
 

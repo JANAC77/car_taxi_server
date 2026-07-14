@@ -37,13 +37,27 @@ const BookingSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  timer: {
+    type: Number
+  },
+  availableSeats: {
+    type: Number,
+    default: 1
+  },
+  startTime: {
+    type: Date
+  },
+  appliedDrivers: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Driver'
+  }],
   distance: {
     type: Number,
     default: 0
   },
   status: {
     type: String,
-    enum: ['Pending', 'Accepted', 'Arrived', 'Ongoing', 'Completed', 'Cancelled'],
+    enum: ['Pending', 'Accepted', 'Admin Accepted', 'Arrived', 'Ongoing', 'Completed', 'Cancelled'],
     default: 'Pending'
   },
   paymentStatus: {
