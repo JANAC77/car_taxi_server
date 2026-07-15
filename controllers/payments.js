@@ -26,6 +26,7 @@ exports.requestRecharge = async (req, res, next) => {
       amount: Number(amount),
       status: 'Pending',
       transactionRef: transactionRef || '',
+      paymentProof: req.file ? '/uploads/' + req.file.filename : null,
       description: `Wallet recharge request via UPI`
     });
 

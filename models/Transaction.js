@@ -23,6 +23,9 @@ const TransactionSchema = new mongoose.Schema({
   transactionRef: {
     type: String // Optional reference details for recharges
   },
+  paymentProof: {
+    type: String // Path/URL to the uploaded proof of payment image
+  },
   description: {
     type: String
   },
