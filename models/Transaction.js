@@ -21,10 +21,10 @@ const TransactionSchema = new mongoose.Schema({
     default: 'Approved' // Recharges default to Pending, Deductions are pre-Approved
   },
   transactionRef: {
-    type: String // Optional reference details for recharges
+    type: String
   },
   paymentProof: {
-    type: String // Path/URL to the uploaded proof of payment image
+    type: String // Stores Base64 image string
   },
   description: {
     type: String

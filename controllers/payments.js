@@ -14,7 +14,7 @@ exports.deletePayment = factory.deleteOne(Payment);
 // @route   POST /api/v1/payments/recharge
 exports.requestRecharge = async (req, res, next) => {
   try {
-    const { amount, transactionRef } = req.body;
+    const { amount, transactionRef, paymentProof } = req.body;
 
     if (!amount || isNaN(amount) || amount <= 0) {
       return res.status(400).json({ success: false, error: 'Please enter a valid amount' });
@@ -26,7 +26,7 @@ exports.requestRecharge = async (req, res, next) => {
       amount: Number(amount),
       status: 'Pending',
       transactionRef: transactionRef || '',
-      paymentProof: req.file ? '/uploads/' + req.file.filename : null,
+      paymentProof: paymentProof || null,
       description: `Wallet recharge request via UPI`
     });
 

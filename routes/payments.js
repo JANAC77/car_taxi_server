@@ -12,12 +12,11 @@ const {
   rejectRecharge
 } = require('../controllers/payments');
 const { protect, protectDriver } = require('../middlewares/auth');
-const upload = require('../middlewares/upload');
 
 const router = express.Router();
 
 // Driver wallet endpoints
-router.post('/recharge', protectDriver, upload.single('paymentProof'), requestRecharge);
+router.post('/recharge', protectDriver, requestRecharge);
 router.get('/driver-transactions', protectDriver, getDriverTransactions);
 
 // Admin wallet endpoints
