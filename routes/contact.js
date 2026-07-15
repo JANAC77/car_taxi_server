@@ -10,6 +10,13 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Please provide all required fields' });
     }
 
+    if (!process.env.ZOHO_EMAIL || !process.env.ZOHO_PASSWORD) {
+      console.error('Zoho credentials missing in environment variables');
+      return res.status(500).json({ success: false, error: 'Server email configuration is missing' });
+    }
+
+    console.log('Attempting to send email via Zoho...');
+
     // Configure Zoho SMTP transporter
     const transporter = nodemailer.createTransport({
       host: 'smtp.zoho.in', // Or smtp.zoho.com depending on region
