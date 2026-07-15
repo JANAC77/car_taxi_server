@@ -20,8 +20,9 @@ router.post('/', async (req, res) => {
     // Configure Zoho SMTP transporter
     const transporter = nodemailer.createTransport({
       host: 'smtp.zoho.in', // Or smtp.zoho.com depending on region
-      port: 465,
-      secure: true, // true for 465, false for other ports
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      requireTLS: true,
       auth: {
         user: process.env.ZOHO_EMAIL,
         pass: process.env.ZOHO_PASSWORD
