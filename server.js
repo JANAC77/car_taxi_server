@@ -36,6 +36,7 @@ app.use('/api/v1/payments', require('./routes/payments'));
 app.use('/api/v1/settings', require('./routes/settings'));
 app.use('/api/v1/vehicle-types', require('./routes/vehicleTypes'));
 app.use('/api/v1/dashboard', require('./routes/dashboard'));
+app.use('/api/v1/contact', require('./routes/contact'));
 
 // Base Route
 app.get('/', (req, res) => {
